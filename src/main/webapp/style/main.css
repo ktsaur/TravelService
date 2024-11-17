@@ -1,0 +1,218 @@
+/* Общие стили */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер для центровки содержимого */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+/* Заголовки */
+h1, h2, h4 {
+    color: #343a40;
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+/* Кнопки */
+.btn {
+    background-color: #28A745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+/* Навигационная панель */
+.navbar {
+    background-color: #3498db;
+    padding: 15px;
+}
+
+.navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 24px;
+    color: white;
+}
+
+.navbar .nav-link {
+    color: white;
+    font-weight: 400;
+    margin-left: 15px;
+}
+
+.navbar .nav-link:hover {
+    color: white;
+}
+
+/* Ховер эффекты для навигации */
+.nav-item.active .nav-link {
+    font-weight: bold;
+}
+
+.navbar-nav {
+    list-style-type: none; /* Убираем маркеры (точки) у списка */
+    padding-left: 0; /* Убираем отступы слева */
+    margin-bottom: 0; /* Убираем отступ снизу */
+}
+
+.navbar-nav .nav-item {
+    margin-left: 15px; /* Расстояние между элементами навигации */
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Белый цвет для ссылок */
+    font-weight: 400;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #f1f1f1; /* Цвет при наведении */
+}
+
+/* Форма */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Уведомления */
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.alert-warning {
+    background-color: #ffc107;
+    color: #856404;
+}
+
+/* Стиль для блока с приветственным сообщением */
+.welcome-message {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Стиль для блока с полезной информацией */
+.highlight {
+    color: #007BFF;
+    font-weight: 700;
+}
+
+/* Блок для кнопки призыва к действию */
+.cta a {
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.cta a:hover {
+    background-color: #2980b9;
+}
+
+/* Стиль для подвала */
+footer {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Стиль для верхнего изображения */
+.header-image {
+    width: 100%;
+    height: 300px;
+    background-image: url('/images/travel.jpg'); /* Убедитесь, что путь правильный */
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Стили для страницы регистрации/входа */
+.register-redirect {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-redirect p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.register-redirect a {
+    font-size: 1em;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.register-redirect a:hover {
+    color: #0056b3;
+}
+
+/* Отступы для текста и кнопок */
+.welcome-message h2 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+/* Стиль для навигации с иконками */
+.navbar .nav-link i {
+    margin-right: 5px;
+    font-size: 1.2em;
+}
