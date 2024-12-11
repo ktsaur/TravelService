@@ -1,5 +1,7 @@
 package ru.kpfu.itis.controllers.login;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.dao.UserDao;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.services.UserService;
@@ -17,6 +19,7 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
+    private static final Logger log = LoggerFactory.getLogger(RegistrationServlet.class);
     private UserDao userDao;
     //private UserService userService;
 

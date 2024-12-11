@@ -65,9 +65,10 @@ public class TravelDao {
     }
 
 
-    public List<Travel> getAll() throws DbException, SQLException {
-        Statement st = this.connectionProvider.getCon().createStatement();
-        ResultSet rs = st.executeQuery("select * from travel");
+    public List<Travel> getTravelsByUserId(int userId) throws DbException, SQLException {
+        PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM travel WHERE user_id = ?");
+        st.setInt(1, userId);
+        ResultSet rs = st.executeQuery();
         List<Travel> travels = new ArrayList<>();
         while(rs.next()){
             Travel travel = new Travel(
@@ -120,6 +121,25 @@ public class TravelDao {
             return affectedRows > 0;
         } catch (SQLException e) {
             throw new DbException("Can't delete travel from db.", e);
+        }
+    }
+
+    public boolean updateTravel(Travel travel) throws DbException {
+        try  {
+            PreparedStatement st = this.connectionProvider.getCon().prepareStatement("UPDATE travel SET name_travel = ?, description = ?, start_date = ?, end_date = ?, " +
+                    "transport = ?, list_of_things = ?, notes = ? WHERE travel_id = ?");
+            st.setString(1, travel.getName_travel());
+            st.setString(2, travel.getDescription());
+            st.setDate(3, travel.getStart_date());
+            st.setDate(4, travel.getEnd_date());
+            st.setString(5, travel.getTransport());
+            st.setString(6, travel.getList_of_things());
+            st.setString(7, travel.getNotes());
+            st.setInt(8, travel.getTravel_id());
+
+            return st.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DbException("Ошибка при обновлении путешествия.", e);
         }
     }
 

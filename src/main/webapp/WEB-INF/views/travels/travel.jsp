@@ -18,6 +18,7 @@
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="travel_id" value="${travel.getTravel_id()}">
     <button type="submit" class="btn btn-danger">Удалить путешествие</button>
+    <a href="${pageContext.request.contextPath}/travel/update?travel_id=${travel.getTravel_id()}">Редактировать</a>
   </form>
 
 </t:mainLayout>

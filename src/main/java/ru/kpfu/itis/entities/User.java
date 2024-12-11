@@ -5,14 +5,23 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String url;
 
     public User() {}
 
-    public User(Integer user_id, String username, String password, String email) {
+    public User(Integer user_id, String username, String password, String email, String url) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.url = url;
+    }
+
+    public User(String username, String password, String email, String url) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.url = url;
     }
 
     public User(String username, String password, String email) {
@@ -51,5 +60,12 @@ public class User {
 
     public void setId(Integer id) {
         this.user_id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

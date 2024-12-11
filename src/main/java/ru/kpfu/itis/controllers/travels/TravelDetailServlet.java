@@ -38,7 +38,6 @@ public class TravelDetailServlet extends HttpServlet {
                 return;
             }
             Travel travel = travelDao.getTravelById(Integer.parseInt(travel_id));
-            //Route route = routeDao.getRouteById(Integer.parseInt(route_id));
             if (travel != null) {
                 // Устанавливаем атрибуты запроса для JSP
                 req.setAttribute("travel", travel);

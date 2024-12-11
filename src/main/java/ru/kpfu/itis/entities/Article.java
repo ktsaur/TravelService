@@ -7,12 +7,14 @@ public class Article {
     private String title;
     private String content;
     private Date created_date;
+    private boolean isFavourite;
 
-    public Article(int article_id, String title, String content, Date created_date) {
+    public Article(int article_id, String title, String content, Date created_date, boolean isFavourite) {
         this.article_id = article_id;
         this.title = title;
         this.content = content;
         this.created_date = created_date;
+        this.isFavourite = false;
     }
 
     public int getArticle_id() {
@@ -46,4 +48,12 @@ public class Article {
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
     }
+
+//    public boolean isFavourite() {
+//        return isFavourite;
+//    }
+//
+//    public void setFavourite(boolean favourite) {
+//        isFavourite = favourite;
+//    }
 }

@@ -44,10 +44,12 @@ public class SignInServlet extends HttpServlet {
             try {
                 User user = userDao.getUsernameAndPassword(username, password); // аутентификация. мы проверили,
                 // что такой пользолватель существует, что правильно соотносится логин и пароль
+                int userId = userDao.getUserId(username);
                 if (user == null) {
                     req.setAttribute("message", "Wrong pair username-password.");
                 } else {
                     userService.authUser(user, req, resp);
+                    req.getSession().setAttribute("user_id", userId);
                     //resp.sendRedirect(getServletContext().getContextPath() + "/");
                 }
             } catch (DbException e) {

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet("/article/detail")
-public class ArticleDetail extends HttpServlet {
+public class ArticleDetailServlet extends HttpServlet {
 
     private ArticleDao articleDao;
 
@@ -38,11 +38,12 @@ public class ArticleDetail extends HttpServlet {
                 article = articleDao.getArticleById(Integer.parseInt(article_id));
             if (article != null) {
                 req.setAttribute("article", article);
+                req.getSession().setAttribute("article_id", Integer.parseInt(article_id));
             } else {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 getServletContext().getRequestDispatcher("/WEB-INF/views/errors/not_found.jsp").forward(req, resp);
             }
-            getServletContext().getRequestDispatcher("/WEB-INF/views/article.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher("/WEB-INF/views/articles/article.jsp").forward(req, resp);
         } catch (DbException | SQLException e) {
             throw new RuntimeException(e);
         }

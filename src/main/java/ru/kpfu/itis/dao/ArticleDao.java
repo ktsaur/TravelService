@@ -2,6 +2,7 @@ package ru.kpfu.itis.dao;
 
 import ru.kpfu.itis.entities.Article;
 
+import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 
@@ -25,7 +26,8 @@ public class ArticleDao {
                     rs.getInt("article_id"),
                     rs.getString("title"),
                     rs.getString("content"),
-                    rs.getDate("created_date")
+                    rs.getDate("created_date"),
+                    rs.getBoolean("isFavourite")
             );
             articles.add(article);
         }
@@ -47,10 +49,34 @@ public class ArticleDao {
                     rs.getInt("article_id"),
                     rs.getString("title"),
                     rs.getString("content"),
-                    rs.getDate("created_date")
+                    rs.getDate("created_date"),
+                    rs.getBoolean("isFavourite")
             );
         } else {
             return null;
         }
+    }
+
+    public List<Article> getFavouritesArticles(int user_id) throws SQLException {
+        PreparedStatement st = this.connectionProvider.getCon().prepareStatement(
+                "SELECT a.article_id, a.title, a.content, a.created_date, 0 AS isFavourite " +
+                        "FROM favourites f " +
+                        "JOIN article a ON f.article_id = a.article_id " +
+                        "WHERE f.user_id = ?"
+        );
+        st.setInt(1, user_id);
+        List<Article> articles = new ArrayList<>();
+        ResultSet rs = st.executeQuery();
+        while (rs.next()) {
+            Article article = new Article(
+                    rs.getInt("article_id"),
+                    rs.getString("title"),
+                    rs.getString("content"),
+                    rs.getDate("created_date"),
+                    rs.getBoolean("isFavourite")
+            );
+            articles.add(article);
+        }
+        return articles;
     }
 }
