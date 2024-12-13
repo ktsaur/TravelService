@@ -1,10 +1,12 @@
-<%@page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%--<%@page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%--<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>--%>
+<%--<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>--%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="/WEB-INF/views/header/_header.jsp" %>
 
-<t:mainLayout title="Главная">
+<%--<t:mainLayout title="Главная">--%>
   <body>
-  <div class="container mt-5">
+  <div>
     <c:if test="${not empty message}">
       <p>${message}</p>
     </c:if>
@@ -39,4 +41,5 @@
 
   </div>
   </body>
-</t:mainLayout>
+<%--</t:mainLayout>--%>
+<%@include file="/WEB-INF/views/footer/_footer.jsp" %>

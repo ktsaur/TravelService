@@ -12,6 +12,32 @@ public class Travel {
     private String transport;
     private String list_of_things;
     private String notes; //доп информация
+    private String travel_url;
+
+    public Travel(int travel_id, int user_id, String name_travel, String description, Date start_date, Date end_date, String transport, String list_of_things, String notes, String travel_url) {
+        this.travel_id = travel_id;
+        this.user_id = user_id;
+        this.name_travel = name_travel;
+        this.description = description;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.transport = transport;
+        this.list_of_things = list_of_things;
+        this.notes = notes;
+        this.travel_url = travel_url;
+    }
+
+    public Travel(int user_id, String name_travel, String description, Date start_date, Date end_date, String transport, String list_of_things, String notes, String travel_url) {
+        this.user_id = user_id;
+        this.name_travel = name_travel;
+        this.description = description;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.transport = transport;
+        this.list_of_things = list_of_things;
+        this.notes = notes;
+        this.travel_url = travel_url;
+    }
 
     public Travel(int travel_id, int user_id, String name_travel, String description, Date start_date, Date end_date, String transport, String list_of_things, String notes) {
         this.travel_id = travel_id;
@@ -106,5 +132,13 @@ public class Travel {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getTravel_url() {
+        return travel_url;
+    }
+
+    public void setTravel_url(String travel_url) {
+        this.travel_url = travel_url;
     }
 }

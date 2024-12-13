@@ -30,6 +30,27 @@ public class User {
         this.email = email;
     }
 
+    public User(Integer user_id, String username, String email) {
+        this.user_id = user_id;
+        this.username = username;
+        this.email = email;
+    }
+
+    public User(Integer user_id, String username, String email, String url) {
+        this.user_id = user_id;
+        this.username = username;
+        this.email = email;
+        this.url = url;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
     public String getUsername() {
         return username;
     }

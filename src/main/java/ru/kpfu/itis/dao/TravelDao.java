@@ -23,7 +23,7 @@ public class TravelDao {
         int travelId = -1;
         try {
             PreparedStatement st = this.connectionProvider.getCon().prepareStatement("INSERT INTO travel " +
-                    "(user_id, name_travel, description, start_date, end_date, transport, list_of_things, notes) VALUE (?, ?, ?, ?, ?, ?, ?, ?)",
+                    "(user_id, name_travel, description, start_date, end_date, transport, list_of_things, notes, travel_url) VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, travel.getUser_id());
             st.setString(2, travel.getName_travel());
@@ -33,6 +33,7 @@ public class TravelDao {
             st.setString(6, travel.getTransport());
             st.setString(7, travel.getList_of_things());
             st.setString(8, travel.getNotes());
+            st.setString(9, "https://res.cloudinary.com/dkiovijcy/image/upload/v1733940712/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA_%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2024-12-11_%D0%B2_21.11.23_nuchos.png");
             int affectedRows = st.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = st.getGeneratedKeys()) {
@@ -80,7 +81,8 @@ public class TravelDao {
                     rs.getDate("end_date"),
                     rs.getString("transport"),
                     rs.getString("list_of_things"),
-                    rs.getString("notes")
+                    rs.getString("notes"),
+                    rs.getString("travel_url")
             );
             travels.add(travel);
         }
@@ -107,7 +109,8 @@ public class TravelDao {
                     rs.getDate("end_date"),
                     rs.getString("transport"),
                     rs.getString("list_of_things"),
-                    rs.getString("notes")
+                    rs.getString("notes"),
+                    rs.getString("travel_url")
             );
         } else { return null; }
     }
@@ -140,6 +143,20 @@ public class TravelDao {
             return st.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DbException("Ошибка при обновлении путешествия.", e);
+        }
+    }
+
+    public boolean updateTravelUrl(int travelId, String url) throws DbException {
+        try {
+            PreparedStatement st = this.connectionProvider.getCon().prepareStatement(
+                    "UPDATE travel SET travel_url = ? WHERE travel_id = ?"
+            );
+            st.setString(1, url);
+            st.setInt(2, travelId);
+            int affectedRows = st.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            throw new DbException("Can't update user URL in the database.", e);
         }
     }
 

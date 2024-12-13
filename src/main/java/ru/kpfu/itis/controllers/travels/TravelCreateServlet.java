@@ -7,19 +7,21 @@ import ru.kpfu.itis.services.UserService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.ResultSet;
+
 
 @WebServlet("/travel/create")
 public class TravelCreateServlet extends HttpServlet {
 
     private TravelDao travelDao;
     private UserService userService;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -50,10 +52,8 @@ public class TravelCreateServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/views/travels/travelCreate.jsp").forward(req, resp);
             return;
         }
-
         Travel newTravel = new Travel(user_id, name_travel, description, start_date, end_date, transport, list_of_things, notes);
         int travel_id = travelDao.createTravel(newTravel);
-
 
         req.setAttribute("message", "Новое путешествие создано!");
         resp.sendRedirect(req.getContextPath() + "/travel/detail?travel_id=" + travel_id);

@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <title>${title}</title>
 
-    <script src="<c:url value="/WEB-INF/js/bootstrap.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
 
     <link rel="stylesheet" href="<c:url value='/style/all.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/style/bootstrap.min.css'/>">
@@ -16,11 +16,10 @@
 
   </head>
   <body>
-  <%@include file="/WEB-INF/views/navigation/_nav.jsp" %>
-<%--  <%@ include file="/WEB-INF/views/header.jsp" %>--%>
-    <div class="container">
-      <jsp:doBody/>
-    </div>
-<%--  <%@ include file="/WEB-INF/views/footer.jsp" %>--%>
+  <%@ include file="/WEB-INF/views/header/_header.jsp" %>
+  <div class="container">
+    <jsp:doBody/>
+  </div>
+  <%@ include file="/WEB-INF/views/footer/_footer.jsp" %>
   </body>
 </html>

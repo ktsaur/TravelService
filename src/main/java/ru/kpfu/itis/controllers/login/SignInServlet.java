@@ -47,6 +47,8 @@ public class SignInServlet extends HttpServlet {
                 int userId = userDao.getUserId(username);
                 if (user == null) {
                     req.setAttribute("message", "Wrong pair username-password.");
+                    getServletContext().getRequestDispatcher("/WEB-INF/views/login/signin.jsp").forward(req, resp);
+                    return;
                 } else {
                     userService.authUser(user, req, resp);
                     req.getSession().setAttribute("user_id", userId);
@@ -56,6 +58,6 @@ public class SignInServlet extends HttpServlet {
                 throw new ServletException(e);
             }
         }
-        resp.sendRedirect(getServletContext().getContextPath() + "/profile");
+        resp.sendRedirect(getServletContext().getContextPath() + "/travel/list");
     }
 }

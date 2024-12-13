@@ -1,23 +1,37 @@
 package ru.kpfu.itis.controllers.travels;
 
+import com.cloudinary.Cloudinary;
 import ru.kpfu.itis.dao.TravelDao;
 import ru.kpfu.itis.entities.Travel;
 import ru.kpfu.itis.entities.User;
+import ru.kpfu.itis.util.CloudinaryUtil;
 import ru.kpfu.itis.util.DbException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import javax.validation.TraversableResolver;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet("/travel/detail")
+@MultipartConfig(
+        maxFileSize = 5 * 1024 * 1024,
+        maxRequestSize = 10 * 1024 * 1024
+)
 public class TravelDetailServlet extends HttpServlet {
 
     private TravelDao travelDao;
+    private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
+    private static final String FILE_PREFIX = "/tmp";
+    private static final int DIRECTORIES_COUNT = 10;
 
     @Override
     public void init() throws ServletException {
@@ -113,7 +127,66 @@ public class TravelDetailServlet extends HttpServlet {
         String action = req.getParameter("action");
         int travel_id = Integer.parseInt(req.getParameter("travel_id"));
 
+//        Part part = req.getPart("file");
+//
+//        if (part == null || part.getSubmittedFileName() == null || part.getSubmittedFileName().isEmpty()) {
+//            req.setAttribute("message", "Фотография не была загружена. Предыдущее фото остается без изменений.");
+//            getServletContext().getRequestDispatcher("/WEB-INF/views/profile.jsp").forward(req, resp);
+//            return;
+//        }
+//
+//        String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+//        File file = new File(FILE_PREFIX + File.separator + fileName.hashCode() % DIRECTORIES_COUNT + File.separator + fileName);
+//
+//        InputStream content = part.getInputStream();
+//        file.getParentFile().mkdirs();
+//        file.createNewFile();
+//
+//        FileOutputStream outputStream = new FileOutputStream(file);
+//        byte[] buffer = new byte[content.available()];
+//        content.read(buffer);
+//        outputStream.write(buffer);
+//        outputStream.close();
+//
+//        Map uploadResult = cloudinary.uploader().upload(file, new HashMap<>());
+//        String uploadedUrl = (String) uploadResult.get("url");
+//
+//        try {
+//            travelDao.updateTravelUrl(travel_id, uploadedUrl);
+//            Travel travel = travelDao.getTravelById(travel_id);
+//            travel.setTravel_url(uploadedUrl);
+//        } catch (DbException e) {
+//            req.setAttribute("message", "Ошибка при обновлении аватара.");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+
         // Проверяем, если действие - это удаление аккаунта
+        Part part = req.getPart("file");
+        if (part != null && part.getSize() > 0) {
+            String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+            File file = new File(FILE_PREFIX + File.separator + fileName.hashCode() % DIRECTORIES_COUNT + File.separator + fileName);
+
+            InputStream content = part.getInputStream();
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+
+            try (FileOutputStream outputStream = new FileOutputStream(file)) {
+                byte[] buffer = new byte[content.available()];
+                content.read(buffer);
+                outputStream.write(buffer);
+            }
+
+            Map uploadResult = cloudinary.uploader().upload(file, new HashMap<>());
+            String uploadedUrl = (String) uploadResult.get("url");
+
+            try {
+                travelDao.updateTravelUrl(travel_id, uploadedUrl);
+            } catch (DbException e) {
+                req.setAttribute("message", "Ошибка при обновлении фото.");
+            }
+        }
+
         if ("delete".equals(action)) {
             try {
                 boolean isDeleted = travelDao.deleteTravel(travel_id);
