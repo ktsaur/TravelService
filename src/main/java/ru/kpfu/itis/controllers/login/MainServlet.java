@@ -1,5 +1,7 @@
 package ru.kpfu.itis.controllers.login;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.dao.ArticleDao;
 import ru.kpfu.itis.entities.Article;
 import ru.kpfu.itis.services.FavouritesService;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,8 @@ import java.util.Map;
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
 
+    private static final Logger LOG =
+            LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private ArticleDao articleDao;
     private FavouritesService favouritesService;
 
@@ -35,18 +40,31 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            List<Article> articles = articleDao.getAll();
+//            List<Article> articles = articleDao.getAll();
+//            Integer userId = (Integer) req.getSession().getAttribute("user_id");
+//
+//            Map<Integer, Boolean> favouriteStatus = new HashMap<>();
+//            if (userId != null) {
+//                for (Article article : articles) {
+//                    boolean isFavourite = favouritesService.isFavourite(userId, article.getArticle_id());
+//                    favouriteStatus.put(article.getArticle_id(), isFavourite);
+//                }
+//            }
+
+            Map<String, List<Article>> groupedArticles = articleDao.getArticlesGroupedByCategory();
             Integer userId = (Integer) req.getSession().getAttribute("user_id");
 
             Map<Integer, Boolean> favouriteStatus = new HashMap<>();
             if (userId != null) {
-                for (Article article : articles) {
-                    boolean isFavourite = favouritesService.isFavourite(userId, article.getArticle_id());
-                    favouriteStatus.put(article.getArticle_id(), isFavourite);
+                for (List<Article> articles : groupedArticles.values()) {
+                    for (Article article : articles) {
+                        boolean isFavourite = favouritesService.isFavourite(userId, article.getArticle_id());
+                        favouriteStatus.put(article.getArticle_id(), isFavourite);
+                    }
                 }
             }
 
-            req.setAttribute("articles", articles);
+            req.setAttribute("groupedArticles", groupedArticles);
             req.setAttribute("favouriteStatus", favouriteStatus);
 
             String message = (String) req.getSession().getAttribute("message");
@@ -55,10 +73,12 @@ public class MainServlet extends HttpServlet {
                 req.getSession().removeAttribute("message");
             }
 
-        } catch (DbException | SQLException e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/views/login/main.jsp").forward(req, resp);
+        //resp.sendRedirect(getServletContext().getContextPath() + "/main");
     }
 
     @Override
@@ -75,8 +95,8 @@ public class MainServlet extends HttpServlet {
         try {
             Integer user_id = (Integer) req.getSession().getAttribute("user_id");
             if (user_id == null) {
-                List<Article> articles = articleDao.getAll();
-                req.setAttribute("articles", articles);
+                Map<String, List<Article>> groupedArticles = articleDao.getArticlesGroupedByCategory();
+                req.setAttribute("groupedArticles", groupedArticles);
                 req.setAttribute("message", "Сначала пользователь должен войти в аккаунт.");
                 getServletContext().getRequestDispatcher("/WEB-INF/views/login/main.jsp").forward(req, resp);
                 return;

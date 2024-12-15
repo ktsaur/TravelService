@@ -45,3 +45,4 @@
 
   </div>
 
+<%@include file="/WEB-INF/views/footer/_footer.jsp" %>

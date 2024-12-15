@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="<c:url value="/style/_nav.scss"/>">
   <link rel="stylesheet" href="<c:url value="/style/main.css"/>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  <%--    //<link rel="stylesheet" href="<c:url value="/style/main.css"/>">--%>
 
 </head>
 <body>
@@ -22,9 +21,7 @@
     <nav class="navbar bg-body-tertiary">
       <div class="container">
         <a class="navbar-brand" href="<c:url value='/main' />">
-          <%--                    <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">--%>
           <img src="<c:url value="https://res.cloudinary.com/dkiovijcy/image/upload/v1733911964/logo_hw0u7x.jpg"/> " alt="Bootstrap" width="50" height="50">
-<%--            <i class="bi bi-airplane-engines" width="30" height="30"></i>--%>
         </a>
       </div>
     </nav>
@@ -37,15 +34,8 @@
       </ul>
       <c:if test="${user != null}">
         <ul class="nav nav-tabs">
-<%--          <li class="nav-item">--%>
-<%--            <a class="nav-link" href="<c:url value='/profile'/>">Profile</a>--%>
-<%--          </li>--%>
-<%--          <li class="nav-item">--%>
-<%--            <a class="nav-link" href="<c:url value='/travel/list'/>">My Travels</a>--%>
-<%--          </li>--%>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-<%--              Dropdown--%>
                 <c:choose>
                   <c:when test="${not empty user.url}">
                     <img src="${user.url}" alt="Bootstrap" width="40" height="40" class="rounded-circle" />
@@ -54,14 +44,14 @@
                     <i class="bi bi-person-circle fs-4"></i>
                   </c:otherwise>
                 </c:choose>
-<%--                  <img src="<c:url value="https://res.cloudinary.com/dkiovijcy/image/upload/v1733911964/logo_hw0u7x.jpg"/> " alt="Bootstrap" width="30" height="30">--%>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" >
               <li><a class="dropdown-item" href="<c:url value='/profile'/>">Профиль</a></li>
               <li><a class="dropdown-item" href="<c:url value='/travel/list'/>">Мои путешествия</a></li>
               <li><a class="dropdown-item" href="<c:url value='/favourites'/>">Избранные</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="<c:url value='/signout'/>">Выйти</a></li>
+<%--              <li><a class="dropdown-item" href="<c:url value='/signout'/>">Выйти</a></li>--%>
+              <li><a class="dropdown-item" href="<c:url value='/signout'/>" data-bs-toggle="modal" data-bs-target="#signOutModal">Выйти</a></li>
             </ul>
           </li>
         </ul>
@@ -87,5 +77,24 @@
     <p>Планируйте путешествия своей мечты с легкостью.</p>
   </div>
 </div>
+<div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signOutModalLabel">Выход из аккаунта</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Вы уверены, что хотите выйти из аккаунта?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+        <a href="<c:url value='/signout'/>" class="btn btn-danger">Выйти</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="contents">
 

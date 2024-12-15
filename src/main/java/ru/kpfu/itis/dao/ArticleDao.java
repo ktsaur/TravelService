@@ -8,7 +8,9 @@ import ru.kpfu.itis.util.DbException;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ArticleDao {
     private ConnectionProvider connectionProvider;
@@ -27,7 +29,8 @@ public class ArticleDao {
                     rs.getString("title"),
                     rs.getString("content"),
                     rs.getDate("created_date"),
-                    rs.getBoolean("isFavourite")
+                    rs.getBoolean("isFavourite"),
+                    rs.getString("category")
             );
             articles.add(article);
         }
@@ -50,7 +53,8 @@ public class ArticleDao {
                     rs.getString("title"),
                     rs.getString("content"),
                     rs.getDate("created_date"),
-                    rs.getBoolean("isFavourite")
+                    rs.getBoolean("isFavourite"),
+                    rs.getString("category")
             );
         } else {
             return null;
@@ -78,5 +82,45 @@ public class ArticleDao {
             articles.add(article);
         }
         return articles;
+    }
+
+    public List<Article> getArticlesByCategory(String category) throws SQLException {
+        PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM article WHERE category = ?");
+        st.setString(1, category);
+        ResultSet rs = st.executeQuery();
+        List<Article> articles = new ArrayList<>();
+        while (rs.next()) {
+            articles.add(new Article(
+                    rs.getInt("article_id"),
+                    rs.getString("title"),
+                    rs.getString("content"),
+                    rs.getDate("created_date"),
+                    rs.getBoolean("isFavourite"),
+                    rs.getString("category")
+            ));
+        }
+        return articles;
+    }
+
+    public Map<String, List<Article>> getArticlesGroupedByCategory() throws SQLException {
+        Map<String, List<Article>> groupedArticles = new HashMap<>();
+        try {
+            PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM article ORDER BY category");
+            ResultSet resultSet = st.executeQuery();
+            while (resultSet.next()) {
+                String category = resultSet.getString("category");
+                Article article = new Article(
+                        resultSet.getInt("article_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("content"),
+                        category
+                );
+                groupedArticles.computeIfAbsent(category, k -> new ArrayList<>()).add(article);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return groupedArticles;
     }
 }

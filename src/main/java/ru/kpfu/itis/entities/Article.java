@@ -8,6 +8,7 @@ public class Article {
     private String content;
     private Date created_date;
     private boolean isFavourite;
+    private String category;
 
     public Article(int article_id, String title, String content, Date created_date, boolean isFavourite) {
         this.article_id = article_id;
@@ -15,6 +16,22 @@ public class Article {
         this.content = content;
         this.created_date = created_date;
         this.isFavourite = false;
+    }
+
+    public Article(int article_id,String title, String content, Date created_date, boolean isFavourite, String category) {
+        this.article_id = article_id;
+        this.title = title;
+        this.content = content;
+        this.created_date = created_date;
+        this.isFavourite = isFavourite;
+        this.category = category;
+    }
+
+    public Article(int article_id, String title, String category, String content) {
+        this.article_id = article_id;
+        this.title = title;
+        this.category = category;
+        this.content = content;
     }
 
     public int getArticle_id() {
@@ -49,7 +66,15 @@ public class Article {
         this.created_date = created_date;
     }
 
-//    public boolean isFavourite() {
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    //    public boolean isFavourite() {
 //        return isFavourite;
 //    }
 //

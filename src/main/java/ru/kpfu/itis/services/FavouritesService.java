@@ -30,4 +30,6 @@ public class FavouritesService {
 
         return new FavouriteActionResult(success, !isFavourite);
     }
+
+
 }

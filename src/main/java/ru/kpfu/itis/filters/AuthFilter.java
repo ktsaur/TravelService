@@ -25,7 +25,7 @@ public class AuthFilter implements Filter {
         String uri = httpRequest.getRequestURI();
         HttpSession session = httpRequest.getSession(false);
 
-        boolean isPublicResource = uri.contains("/main") || uri.contains("/signin") || uri.contains("/main") || uri.contains("/registration");
+        boolean isPublicResource = uri.contains("/main") || uri.contains("/signin") || uri.contains("/article/detail") || uri.contains("/registration");
         boolean isAuthenticated = session != null && session.getAttribute("user") != null;
 
         if (!isAuthenticated && !isPublicResource) {
