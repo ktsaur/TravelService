@@ -23,7 +23,7 @@ public class TravelDao {
         int travelId = -1;
         try {
             PreparedStatement st = this.connectionProvider.getCon().prepareStatement("INSERT INTO travel " +
-                    "(user_id, name_travel, description, start_date, end_date, transport, list_of_things, notes, travel_url) VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "(user_id, name_travel, description, start_date, end_date, transport, list_of_things, notes, travel_url, isOver) VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, travel.getUser_id());
             st.setString(2, travel.getName_travel());
@@ -34,6 +34,7 @@ public class TravelDao {
             st.setString(7, travel.getList_of_things());
             st.setString(8, travel.getNotes());
             st.setString(9, "https://res.cloudinary.com/dkiovijcy/image/upload/v1733940712/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA_%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0_2024-12-11_%D0%B2_21.11.23_nuchos.png");
+            st.setBoolean(10,false);
             int affectedRows = st.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = st.getGeneratedKeys()) {
@@ -82,7 +83,8 @@ public class TravelDao {
                     rs.getString("transport"),
                     rs.getString("list_of_things"),
                     rs.getString("notes"),
-                    rs.getString("travel_url")
+                    rs.getString("travel_url"),
+                    rs.getBoolean("isOver")
             );
             travels.add(travel);
         }
@@ -110,7 +112,8 @@ public class TravelDao {
                     rs.getString("transport"),
                     rs.getString("list_of_things"),
                     rs.getString("notes"),
-                    rs.getString("travel_url")
+                    rs.getString("travel_url"),
+                    rs.getBoolean("isOver")
             );
         } else { return null; }
     }
@@ -158,6 +161,91 @@ public class TravelDao {
         } catch (SQLException e) {
             throw new DbException("Can't update user URL in the database.", e);
         }
+    }
+
+    public List<Travel>  getUpcomingTravelsByUserId(int user_id) throws SQLException {
+        PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM travel WHERE user_id = ? AND isOver = FALSE");
+        st.setInt(1, user_id);
+        ResultSet rs = st.executeQuery();
+        List<Travel> travels = new ArrayList<>();
+        while(rs.next()){
+            Travel travel = new Travel(
+                    rs.getInt("travel_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("name_travel"),
+                    rs.getString("description"),
+                    rs.getDate("start_date"),
+                    rs.getDate("end_date"),
+                    rs.getString("transport"),
+                    rs.getString("list_of_things"),
+                    rs.getString("notes"),
+                    rs.getString("travel_url"),
+                    rs.getBoolean("isOver")
+            );
+            travels.add(travel);
+        }
+        return travels;
+    }
+
+    public List<Travel> getCompletedTravelsByUserId(int user_id) throws DbException, SQLException {
+        PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM travel WHERE user_id = ? AND isOver = TRUE");
+        st.setInt(1, user_id);
+        ResultSet rs = st.executeQuery();
+        List<Travel> travels = new ArrayList<>();
+        while(rs.next()){
+            Travel travel = new Travel(
+                    rs.getInt("travel_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("name_travel"),
+                    rs.getString("description"),
+                    rs.getDate("start_date"),
+                    rs.getDate("end_date"),
+                    rs.getString("transport"),
+                    rs.getString("list_of_things"),
+                    rs.getString("notes"),
+                    rs.getString("travel_url"),
+                    rs.getBoolean("isOver")
+            );
+            travels.add(travel);
+        }
+        return travels;
+    }
+
+    public boolean updateTravelStatus(int travel_id, boolean isOver) throws DbException {
+        try {
+            PreparedStatement stmt = this.connectionProvider.getCon().prepareStatement("UPDATE travel SET isOver = ? WHERE travel_id = ?");
+            stmt.setBoolean(1, isOver);
+            stmt.setInt(2, travel_id);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new DbException("Ошибка обновления статуса путешествия", e);
+        }
+    }
+
+    public List<Travel> searchTravelsByName(int userId, String name) throws DbException, SQLException {
+        PreparedStatement stmt = this.connectionProvider.getCon().prepareStatement("SELECT * FROM travel WHERE user_id = ? AND LOWER(name_travel) LIKE ?");
+        stmt.setInt(1, userId);
+        stmt.setString(2, "%" + name.toLowerCase() + "%");
+        ResultSet rs = stmt.executeQuery();
+        List<Travel> travels = new ArrayList<>();
+        while(rs.next()){
+            Travel travel = new Travel(
+                    rs.getInt("travel_id"),
+                    rs.getInt("user_id"),
+                    rs.getString("name_travel"),
+                    rs.getString("description"),
+                    rs.getDate("start_date"),
+                    rs.getDate("end_date"),
+                    rs.getString("transport"),
+                    rs.getString("list_of_things"),
+                    rs.getString("notes"),
+                    rs.getString("travel_url"),
+                    rs.getBoolean("isOver")
+            );
+            travels.add(travel);
+        }
+        return travels;
+
     }
 
 }

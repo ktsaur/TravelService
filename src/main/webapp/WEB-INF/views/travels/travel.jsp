@@ -41,12 +41,23 @@
     </div>
   </div>
 
+  <form method="POST" action="${pageContext.request.contextPath}/travel/detail">
+    <input type="hidden" name="travel_id" value="${travel.getTravel_id()}">
+    <input type="hidden" name="action" value="updateStatus">
+    <label>
+      <input type="checkbox" name="isOver" value="true" ${travel.getIsOver() ? "checked" : ""}>
+      Путешествие завершено
+    </label>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+  </form>
+
   <div class="card mt-4">
     <div class="card-header bg-light">
       <h5 class="mb-0">Загрузить фото</h5>
     </div>
     <div class="card-body">
       <form action="<c:url value='/travel/detail'/>" method="post" enctype="multipart/form-data" class="d-flex align-items-center">
+        <input type="hidden" name="action" value="upload">
         <input type="hidden" name="travel_id" value="${travel.getTravel_id()}">
         <input type="file" name="file" class="form-control me-3">
         <button type="submit" class="btn btn-primary">Загрузить</button>

@@ -13,6 +13,7 @@ public class Travel {
     private String list_of_things;
     private String notes; //доп информация
     private String travel_url;
+    private boolean isOver;
 
     public Travel(int travel_id, int user_id, String name_travel, String description, Date start_date, Date end_date, String transport, String list_of_things, String notes, String travel_url) {
         this.travel_id = travel_id;
@@ -60,6 +61,20 @@ public class Travel {
         this.transport = transport;
         this.list_of_things = list_of_things;
         this.notes = notes;
+    }
+
+    public Travel(int travel_id, int user_id, String name_travel, String description, Date start_date, Date end_date, String transport, String list_of_things, String notes, String travel_url, boolean isOver) {
+        this.travel_id = travel_id;
+        this.user_id = user_id;
+        this.name_travel = name_travel;
+        this.description = description;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.transport = transport;
+        this.list_of_things = list_of_things;
+        this.notes = notes;
+        this.travel_url = travel_url;
+        this.isOver = isOver;
     }
 
     public int getTravel_id() {
@@ -140,5 +155,13 @@ public class Travel {
 
     public void setTravel_url(String travel_url) {
         this.travel_url = travel_url;
+    }
+
+    public boolean getIsOver() {
+        return isOver;
+    }
+
+    public void setIsOver(boolean over) {
+        this.isOver = over;
     }
 }

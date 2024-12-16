@@ -32,15 +32,34 @@ public class TravelListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            Integer userId = (Integer) req.getSession().getAttribute("user_id");
-            if (userId == null) {
-                resp.sendRedirect("/signin");
-                return;
-            }
-            LOG.info("User ID from session: " + userId);
+            Integer user_id = (Integer) req.getSession().getAttribute("user_id");
 
-            List<Travel> travels = travelDao.getTravelsByUserId(userId);
+            String filter = req.getParameter("filter");
+            String search = req.getParameter("search");
+
+            List<Travel> travels;
+
+            if (search != null && !search.trim().isEmpty()) {
+                travels = travelDao.searchTravelsByName(user_id, search.trim());
+            } else if (filter != null) {
+                switch (filter) {
+                    case "upcoming":
+                        travels = travelDao.getUpcomingTravelsByUserId(user_id);
+                        break;
+                    case "completed":
+                        travels = travelDao.getCompletedTravelsByUserId(user_id);
+                        break;
+                    default:
+                        travels = travelDao.getTravelsByUserId(user_id);
+                }
+            } else {
+                travels = travelDao.getTravelsByUserId(user_id);
+            }
+
             req.setAttribute("travels", travels);
+            req.setAttribute("filter", filter);
+            req.setAttribute("search", search);
+
         } catch (DbException | SQLException e) {
             throw new RuntimeException(e);
         }

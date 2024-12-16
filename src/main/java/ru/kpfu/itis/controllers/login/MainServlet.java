@@ -40,19 +40,16 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-//            List<Article> articles = articleDao.getAll();
-//            Integer userId = (Integer) req.getSession().getAttribute("user_id");
-//
-//            Map<Integer, Boolean> favouriteStatus = new HashMap<>();
-//            if (userId != null) {
-//                for (Article article : articles) {
-//                    boolean isFavourite = favouritesService.isFavourite(userId, article.getArticle_id());
-//                    favouriteStatus.put(article.getArticle_id(), isFavourite);
-//                }
-//            }
-
             Map<String, List<Article>> groupedArticles = articleDao.getArticlesGroupedByCategory();
+            LOG.info("groupedArticles: = " + groupedArticles.toString());
             Integer userId = (Integer) req.getSession().getAttribute("user_id");
+
+            for (Map.Entry<String, List<Article>> entry : groupedArticles.entrySet()) {
+                LOG.info("Category: " + entry.getKey());
+                for (Article article : entry.getValue()) {
+                    LOG.info("Article: " + article.getContent());
+                }
+            }
 
             Map<Integer, Boolean> favouriteStatus = new HashMap<>();
             if (userId != null) {
@@ -63,6 +60,7 @@ public class MainServlet extends HttpServlet {
                     }
                 }
             }
+            LOG.info("favouriteStatus = " + favouriteStatus.toString());
 
             req.setAttribute("groupedArticles", groupedArticles);
             req.setAttribute("favouriteStatus", favouriteStatus);
@@ -78,7 +76,6 @@ public class MainServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/views/login/main.jsp").forward(req, resp);
-        //resp.sendRedirect(getServletContext().getContextPath() + "/main");
     }
 
     @Override
@@ -96,6 +93,7 @@ public class MainServlet extends HttpServlet {
             Integer user_id = (Integer) req.getSession().getAttribute("user_id");
             if (user_id == null) {
                 Map<String, List<Article>> groupedArticles = articleDao.getArticlesGroupedByCategory();
+                LOG.info("groupedArticles: = " + groupedArticles.toString());
                 req.setAttribute("groupedArticles", groupedArticles);
                 req.setAttribute("message", "Сначала пользователь должен войти в аккаунт.");
                 getServletContext().getRequestDispatcher("/WEB-INF/views/login/main.jsp").forward(req, resp);

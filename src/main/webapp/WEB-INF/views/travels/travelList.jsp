@@ -11,7 +11,20 @@
           }
       </style>
 
-    <h3 class="mb-4">Список путешествий</h3><br>
+      <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group" role="group" aria-label="First group">
+              <a href="?filter=upcoming" class="btn btn-outline-secondary">Планирующиеся</a>
+              <a href="?filter=completed" class="btn btn-outline-secondary">Завершенные</a>
+              <a href="?filter=all" class="btn btn-outline-secondary">Все</a>
+          </div>
+          <form method="GET" action="">
+              <div class="input-group">
+                  <input type="text" name="search" class="form-control" placeholder="Введите название" aria-label="Input group example" aria-describedby="btnGroupAddon2">
+                  <button type="submit" class="btn">Поиск</button>
+              </div>
+          </form>
+
+      </div>
 
     <c:if test="${travels.isEmpty()}">
       <p class="mb-5">Ваш список пуст</p>
@@ -24,7 +37,6 @@
     </a>
 
       <c:if test="${!travels.isEmpty()}">
-          <!-- Вынесли группы карточек за пределы цикла -->
           <div class="card-group">
               <div class="row row-cols-1 row-cols-md-3 g-4">
                   <c:forEach var="travel" items="${travels}">

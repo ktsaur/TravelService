@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @WebServlet("/profile/update")
 @MultipartConfig(
         fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -62,7 +61,6 @@ public class ProfileUpdateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        try {
             int user_id = Integer.parseInt(req.getParameter("user_id"));
             String username = req.getParameter("username");
             String email = req.getParameter("email");
@@ -72,10 +70,6 @@ public class ProfileUpdateServlet extends HttpServlet {
             User currentUser = (User) session.getAttribute("user");
 
             String uploadedUrl;
-
-//            User user = new User(user_id, username, email, null);
-//            boolean updated = false;
-//            boolean updated = userDao.updateUserInfo(user);
 
             Part part = req.getPart("file");
             if (part != null && part.getSize() > 0) {
@@ -93,17 +87,7 @@ public class ProfileUpdateServlet extends HttpServlet {
                 }
 
                 Map uploadResult = cloudinary.uploader().upload(file, new HashMap<>());
-//                String uploadedUrl = (String) uploadResult.get("url");
-//                user.setUrl(uploadedUrl);
                 uploadedUrl = (String) uploadResult.get("url");
-//                try {
-//                    user = new User(user_id, username, email, uploadedUrl);
-//                    updated = userDao.updateUserInfo(user);
-//                    LOG.info("фото загрузилось:" + updated);
-//
-//                } catch (DbException e) {
-//                    req.setAttribute("message", "Ошибка при обновлении фото.");
-//                }
             } else {
                 uploadedUrl = currentUser.getUrl();
             }
@@ -120,7 +104,6 @@ public class ProfileUpdateServlet extends HttpServlet {
             }
 
             if (updated) {
-//                HttpSession session = req.getSession();
                 session.setAttribute("user", user);
 
                 resp.sendRedirect(req.getContextPath() + "/profile");
@@ -128,7 +111,5 @@ public class ProfileUpdateServlet extends HttpServlet {
                 req.setAttribute("message", "Не удалось обновить персональные данные");
                 getServletContext().getRequestDispatcher("/WEB-INF/views/profile/profileUpdate.jsp").forward(req, resp);
             }
-
     }
-
 }

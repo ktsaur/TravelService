@@ -34,6 +34,14 @@ public class Article {
         this.content = content;
     }
 
+    public Article(String title, String content, Date created_date, boolean isFavourite, String category) {
+        this.title = title;
+        this.content = content;
+        this.created_date = created_date;
+        this.isFavourite = isFavourite;
+        this.category = category;
+    }
+
     public int getArticle_id() {
         return article_id;
     }
@@ -74,11 +82,11 @@ public class Article {
         this.category = category;
     }
 
-    //    public boolean isFavourite() {
-//        return isFavourite;
-//    }
-//
-//    public void setFavourite(boolean favourite) {
-//        isFavourite = favourite;
-//    }
+        public boolean getIsFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
 }
