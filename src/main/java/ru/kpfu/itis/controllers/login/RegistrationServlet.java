@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.DbException;
+import ru.kpfu.itis.util.PasswordUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -44,12 +45,14 @@ public class RegistrationServlet extends HttpServlet {
         }
 
         try {
-            User user = userDao.getUsernameAndPassword(username, password);
+            String encryptedPassword = PasswordUtil.encrypt(password);
+
+            User user = userDao.getUsernameAndPassword(username, encryptedPassword);
             if (user != null) {
                 req.setAttribute("message", "Пользователь с таким именем уже существует.");
                 getServletContext().getRequestDispatcher("/WEB-INF/views/login/registration.jsp").forward(req, resp);
             } else {
-                User newUser = new User(username, password, email);
+                User newUser = new User(username, encryptedPassword, email);
                 userDao.addUser(newUser);
 
                 req.setAttribute("message", "Регистрация прошла успешно");

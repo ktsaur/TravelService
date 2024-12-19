@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>JSP page</title>
+  <title>${pageTitle}</title>
   <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
   <script src="<c:url value="/js/bootstrap.bundle.min.js"/>"></script>
 
@@ -50,7 +50,6 @@
               <li><a class="dropdown-item" href="<c:url value='/travel/list'/>">Мои путешествия</a></li>
               <li><a class="dropdown-item" href="<c:url value='/favourites'/>">Избранные</a></li>
               <li><hr class="dropdown-divider"></li>
-<%--              <li><a class="dropdown-item" href="<c:url value='/signout'/>">Выйти</a></li>--%>
               <li><a class="dropdown-item" href="<c:url value='/signout'/>" data-bs-toggle="modal" data-bs-target="#signOutModal">Выйти</a></li>
             </ul>
           </li>

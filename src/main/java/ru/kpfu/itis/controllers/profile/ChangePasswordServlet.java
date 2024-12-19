@@ -3,6 +3,7 @@ package ru.kpfu.itis.controllers.profile;
 import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.DbException;
+import ru.kpfu.itis.util.PasswordUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,9 +39,11 @@ public class ChangePasswordServlet extends HttpServlet {
         User user = (User) req.getSession().getAttribute("user");
 
         if (user != null && oldPassword != null && !oldPassword.isEmpty()) {
-            if (user != null && user.getPassword().equals(oldPassword) ) {
+            String encryptedOldPassword = PasswordUtil.encrypt(oldPassword);
+            if (user != null && user.getPassword().equals(encryptedOldPassword) ) {
                 if (newPassword.equals(confirmPassword)) {
-                    user.setPassword(newPassword);
+                    String encryptedNewPassword = PasswordUtil.encrypt(newPassword);
+                    user.setPassword(encryptedNewPassword);
                     boolean success;
                     try {
                         success = userDao.updatePasswordInDatabase(user);

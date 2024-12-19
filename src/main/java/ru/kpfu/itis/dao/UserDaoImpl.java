@@ -23,11 +23,11 @@ public class UserDaoImpl implements UserDao {
         this.connectionProvider = connectionProvider;
     }
 
-    public User getUsernameAndPassword(String username, String password) throws DbException {
+    public User getUsernameAndPassword(String username, String encryptedPassword) throws DbException {
         try {
             PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM user WHERE username = ? AND password = ?");
             st.setString(1, username);
-            st.setString(2, password);
+            st.setString(2, encryptedPassword);
             ResultSet rs = st.executeQuery();
             boolean hasOne = rs.next();
             if (hasOne) {
@@ -65,6 +65,7 @@ public class UserDaoImpl implements UserDao {
 
 
     public boolean addUser(User user) throws DbException {
+        LOG.info("Adding user: {}", user);
         try {
             PreparedStatement st = this.connectionProvider.getCon().prepareStatement("INSERT INTO user (username, password, email, url) VALUES (?, ?, ?, ?) ");
             st.setString(1, user.getUsername());
@@ -72,8 +73,10 @@ public class UserDaoImpl implements UserDao {
             st.setString(3, user.getEmail());
             st.setString(4, "https://res.cloudinary.com/dkiovijcy/image/upload/v1733845755/anonim_hlakgc.png");
             int affectedRows = st.executeUpdate();
+            LOG.info("Affected rows: {}", affectedRows);
             return affectedRows > 0;
         } catch (SQLException e) {
+            LOG.error("Error adding user", e);
             throw new DbException("Can't add user from db.", e);
         }
     }

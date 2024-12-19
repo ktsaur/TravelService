@@ -27,6 +27,7 @@ public class FavouritesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Избранные");
         try {
             Integer userId = (Integer) req.getSession().getAttribute("user_id");
             if (userId == null) {

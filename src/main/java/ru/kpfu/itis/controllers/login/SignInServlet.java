@@ -4,6 +4,7 @@ import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.services.UserService;
 import ru.kpfu.itis.util.DbException;
+import ru.kpfu.itis.util.PasswordUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -23,8 +24,6 @@ public class SignInServlet extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        //Метод init вызывается при инициализации сервлета. Он принимает объект ServletConfig,
-        //который содержит конфигурационные данные для сервлета.
         super.init(config);
         userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
         userService = (UserService) getServletContext().getAttribute("userService");
@@ -41,7 +40,8 @@ public class SignInServlet extends HttpServlet {
 
         if (username != null && password != null) {
             try {
-                User user = userDao.getUsernameAndPassword(username, password); // аутентификация. мы проверили,
+                String encryptedPassword = PasswordUtil.encrypt(password);
+                User user = userDao.getUsernameAndPassword(username, encryptedPassword); // аутентификация. мы проверили,
                 // что такой пользолватель существует, что правильно соотносится логин и пароль
                 int userId = userDao.getUserId(username);
                 if (user == null) {

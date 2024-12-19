@@ -24,9 +24,9 @@ import java.util.Map;
 
 @WebServlet("/profile/update")
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-        maxFileSize = 1024 * 1024 * 10,      // 10MB
-        maxRequestSize = 1024 * 1024 * 50   // 50MB
+        fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50
 )
 public class ProfileUpdateServlet extends HttpServlet {
 
@@ -45,6 +45,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Обновление профиля");
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
 

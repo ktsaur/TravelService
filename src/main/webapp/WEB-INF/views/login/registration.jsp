@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JSP page</title>
+    <title>Регистрация</title>
 
     <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/js/bootstrap.bundle.min.js"/>"></script>

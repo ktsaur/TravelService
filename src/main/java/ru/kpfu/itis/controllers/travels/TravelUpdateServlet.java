@@ -27,6 +27,7 @@ public class TravelUpdateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Обновление путешествия");
         try{
             int travel_id = Integer.parseInt(req.getParameter("travel_id"));
 

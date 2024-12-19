@@ -40,6 +40,7 @@ public class TravelDetailServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Путешествие");
         try{
             String travel_id = req.getParameter("travel_id");
 

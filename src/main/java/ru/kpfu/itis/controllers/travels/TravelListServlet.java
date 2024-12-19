@@ -31,6 +31,7 @@ public class TravelListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Список путешествий");
         try {
             Integer user_id = (Integer) req.getSession().getAttribute("user_id");
 

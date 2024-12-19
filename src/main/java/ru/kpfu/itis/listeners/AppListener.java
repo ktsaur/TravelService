@@ -1,6 +1,8 @@
 package ru.kpfu.itis.listeners;
 
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.kpfu.itis.dao.ArticleDaoImpl;
 import ru.kpfu.itis.dao.FavouritesDaoImpl;
 import ru.kpfu.itis.dao.TravelDaoImpl;
@@ -13,10 +15,12 @@ import ru.kpfu.itis.util.DbException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.lang.invoke.MethodHandles;
 
 
 @WebListener
 public class AppListener implements ServletContextListener {
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {

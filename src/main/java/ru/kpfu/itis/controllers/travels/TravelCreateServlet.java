@@ -32,6 +32,7 @@ public class TravelCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageTitle", "Создание путешествия");
         getServletContext().getRequestDispatcher("/WEB-INF/views/travels/travelCreate.jsp").forward(req, resp);
     }
 

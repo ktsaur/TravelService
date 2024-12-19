@@ -31,18 +31,7 @@ public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession session = req.getSession();
-//        User user = (User) session.getAttribute("user");
-//
-//        if (user != null) {
-//            try {
-//                // Получаем обновленного пользователя из базы данных
-//                User updatedUser = userDao.getUserById(user.getId());
-//                session.setAttribute("user", updatedUser); // Обновляем данные в сессии
-//            } catch (DbException e) {
-//                req.setAttribute("message", "Ошибка при загрузке данных профиля.");
-//            }
-//        }
+        req.setAttribute("pageTitle", "Профиль");
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
 
@@ -55,10 +44,9 @@ public class ProfileServlet extends HttpServlet {
             }
         }
 
-        // Определение текущей вкладки
         String tab = req.getParameter("tab");
         if (tab == null || (!tab.equals("personal") && !tab.equals("account"))) {
-            tab = "personal"; // По умолчанию открывается вкладка "Персональная информация"
+            tab = "personal";
         }
         req.setAttribute("tab", tab);
 
