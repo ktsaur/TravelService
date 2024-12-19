@@ -1,6 +1,6 @@
 package ru.kpfu.itis.services;
 
-import ru.kpfu.itis.dao.FavouritesDao;
+import ru.kpfu.itis.dao.FavouritesDaoImpl;
 import ru.kpfu.itis.util.DbException;
 import ru.kpfu.itis.util.FavouriteActionResult;
 
@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class FavouritesService {
 
-    private FavouritesDao favouritesDao;
+    private FavouritesDaoImpl favouritesDao;
 
-    public FavouritesService(FavouritesDao favouritesDao) {
+    public FavouritesService(FavouritesDaoImpl favouritesDao) {
         this.favouritesDao = favouritesDao;
     }
 

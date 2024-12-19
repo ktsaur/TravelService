@@ -2,9 +2,8 @@ package ru.kpfu.itis.controllers.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
-import ru.kpfu.itis.services.UserService;
 import ru.kpfu.itis.util.DbException;
 
 import javax.servlet.ServletConfig;
@@ -13,24 +12,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(RegistrationServlet.class);
-    private UserDao userDao;
-    //private UserService userService;
-
+    private UserDaoImpl userDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        //Метод init вызывается при инициализации сервлета. Он принимает объект ServletConfig,
-        //который содержит конфигурационные данные для сервлета.
         super.init(config);
-        userDao = (UserDao) getServletContext().getAttribute("userDao");
-        //userService = (UserService) getServletContext().getAttribute("userService");
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
     }
 
     @Override

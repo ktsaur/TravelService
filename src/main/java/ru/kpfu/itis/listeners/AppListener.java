@@ -1,10 +1,10 @@
 package ru.kpfu.itis.listeners;
 
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
-import ru.kpfu.itis.dao.ArticleDao;
-import ru.kpfu.itis.dao.FavouritesDao;
-import ru.kpfu.itis.dao.TravelDao;
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.ArticleDaoImpl;
+import ru.kpfu.itis.dao.FavouritesDaoImpl;
+import ru.kpfu.itis.dao.TravelDaoImpl;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.services.FavouritesService;
 import ru.kpfu.itis.services.UserService;
 import ru.kpfu.itis.util.ConnectionProvider;
@@ -21,10 +21,10 @@ public class AppListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
-            FavouritesDao favouritesDao = new FavouritesDao(connectionProvider);
-            sce.getServletContext().setAttribute("userDao", new UserDao(connectionProvider));
-            sce.getServletContext().setAttribute("travelDao", new TravelDao(connectionProvider));
-            sce.getServletContext().setAttribute("articleDao", new ArticleDao(connectionProvider));
+            FavouritesDaoImpl favouritesDao = new FavouritesDaoImpl(connectionProvider);
+            sce.getServletContext().setAttribute("userDao", new UserDaoImpl(connectionProvider));
+            sce.getServletContext().setAttribute("travelDao", new TravelDaoImpl(connectionProvider));
+            sce.getServletContext().setAttribute("articleDao", new ArticleDaoImpl(connectionProvider));
             sce.getServletContext().setAttribute("userService", new UserService());
             sce.getServletContext().setAttribute("favouritesService", new FavouritesService(favouritesDao));
             sce.getServletContext().setAttribute("favouritesDao", favouritesDao);

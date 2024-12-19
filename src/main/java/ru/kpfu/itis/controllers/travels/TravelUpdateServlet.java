@@ -1,6 +1,6 @@
 package ru.kpfu.itis.controllers.travels;
 
-import ru.kpfu.itis.dao.TravelDao;
+import ru.kpfu.itis.dao.TravelDaoImpl;
 import ru.kpfu.itis.entities.Travel;
 import ru.kpfu.itis.util.DbException;
 
@@ -17,12 +17,12 @@ import java.sql.SQLException;
 @WebServlet("/travel/update")
 public class TravelUpdateServlet extends HttpServlet {
 
-    private TravelDao travelDao;
+    private TravelDaoImpl travelDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.travelDao = (TravelDao) config.getServletContext().getAttribute("travelDao");
+        this.travelDao = (TravelDaoImpl) config.getServletContext().getAttribute("travelDao");
     }
 
     @Override

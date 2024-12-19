@@ -1,5 +1,6 @@
 package ru.kpfu.itis.dao;
 
+import ru.kpfu.itis.dao.impl.TravelDao;
 import ru.kpfu.itis.entities.Travel;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
@@ -11,11 +12,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TravelDao {
+public class TravelDaoImpl implements TravelDao {
 
     private final ConnectionProvider connectionProvider;
 
-    public TravelDao(ConnectionProvider connectionProvider) {
+    public TravelDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
 
@@ -55,10 +56,8 @@ public class TravelDao {
     public int getCount() throws DbException {
         try {
             Statement st = this.connectionProvider.getCon().createStatement();
-            //Statement - обычный запрос.
-            ResultSet rs = st.executeQuery("select count(travel_id) AS count from travel"); // Если используем обычный select - еxecuteQuery().
-            //Этот метод возвращает ResultSet - это итератор по результатам
-            rs.next(); // next() - проходимся по результатам
+            ResultSet rs = st.executeQuery("select count(travel_id) AS count from travel");
+            rs.next();
             return rs.getInt("count");
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -93,14 +92,9 @@ public class TravelDao {
 
     public Travel getTravelById(int id) throws DbException, SQLException {
         PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM travel WHERE travel_id = ?");
-        //PreparedStatement нужен для того, чтобы выполнять запросы в базу данных (чтобы выполнять команды)
-        //Но кроме выполнения запроса этот класс позволяет подготовить запрос и отформатировать его должным образом
         st.setInt(1, id);
         ResultSet rs = st.executeQuery();
         boolean hasOne = rs.next();
-        // result.next() возвращает true, если мы перешли к следующей строчке.
-        // Если ни одной строчки нет, то она вернет false.
-        // Если есть ХОТЯ БЫ одна строчка, вернется true.
         if (hasOne) {
             return new Travel(
                     rs.getInt("travel_id"),
@@ -123,7 +117,6 @@ public class TravelDao {
             PreparedStatement st = this.connectionProvider.getCon().prepareStatement("DELETE FROM travel WHERE travel_id = ?");
             st.setInt(1, travel_id);
             int affectedRows = st.executeUpdate();
-            //возвращает количество (вданном случае удаленных, а так изменнных) строк
             return affectedRows > 0;
         } catch (SQLException e) {
             throw new DbException("Can't delete travel from db.", e);

@@ -1,27 +1,18 @@
 package ru.kpfu.itis.controllers.profile;
 
-import com.cloudinary.Cloudinary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.services.UserService;
-import ru.kpfu.itis.util.CloudinaryUtil;
 import ru.kpfu.itis.util.DbException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
@@ -29,13 +20,13 @@ public class ProfileServlet extends HttpServlet {
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private UserService userService;
-    private UserDao userDao;
+    private UserDaoImpl userDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         userService = (UserService) getServletContext().getAttribute("userService");
-        userDao = (UserDao) getServletContext().getAttribute("userDao");
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
     }
 
     @Override

@@ -2,9 +2,9 @@ package ru.kpfu.itis.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.kpfu.itis.dao.impl.ArticleDao;
 import ru.kpfu.itis.entities.Article;
 
-import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.ConnectionProvider;
 import ru.kpfu.itis.util.DbException;
 
@@ -16,13 +16,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ArticleDao {
+public class ArticleDaoImpl implements ArticleDao {
 
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private ConnectionProvider connectionProvider;
 
-    public ArticleDao(ConnectionProvider connectionProvider) {
+    public ArticleDaoImpl(ConnectionProvider connectionProvider) {
         this.connectionProvider = connectionProvider;
     }
 
@@ -46,14 +46,9 @@ public class ArticleDao {
 
     public Article getArticleById(int id) throws DbException, SQLException {
         PreparedStatement st = this.connectionProvider.getCon().prepareStatement("SELECT * FROM article WHERE article_id = ?");
-        //PreparedStatement нужен для того, чтобы выполнять запросы в базу данных (чтобы выполнять команды)
-        //Но кроме выполнения запроса этот класс позволяет подготовить запрос и отформатировать его должным образом
         st.setInt(1, id);
         ResultSet rs = st.executeQuery();
         boolean hasOne = rs.next();
-        // result.next() возвращает true, если мы перешли к следующей строчке.
-        // Если ни одной строчки нет, то она вернет false.
-        // Если есть ХОТЯ БЫ одна строчка, вернется true.
         if (hasOne) {
             return new Article(
                     rs.getInt("article_id"),

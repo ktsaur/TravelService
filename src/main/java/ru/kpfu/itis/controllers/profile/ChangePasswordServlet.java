@@ -1,6 +1,6 @@
 package ru.kpfu.itis.controllers.profile;
 
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.DbException;
 
@@ -15,12 +15,12 @@ import java.io.IOException;
 @WebServlet("/profile/updatePassword")
 public class ChangePasswordServlet extends HttpServlet {
 
-    private UserDao userDao;
+    private UserDaoImpl userDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        userDao = (UserDao) getServletContext().getAttribute("userDao");
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
     }
 
     @Override

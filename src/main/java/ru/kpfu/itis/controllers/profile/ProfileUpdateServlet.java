@@ -3,7 +3,7 @@ package ru.kpfu.itis.controllers.profile;
 import com.cloudinary.Cloudinary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.util.CloudinaryUtil;
 import ru.kpfu.itis.util.DbException;
@@ -32,7 +32,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private UserDao userDao;
+    private UserDaoImpl userDao;
     private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
     private static final String FILE_PREFIX = "/tmp";
     private static final int DIRECTORIES_COUNT = 10;
@@ -40,7 +40,7 @@ public class ProfileUpdateServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.userDao = (UserDao) config.getServletContext().getAttribute("userDao");
+        this.userDao = (UserDaoImpl) config.getServletContext().getAttribute("userDao");
     }
 
     @Override

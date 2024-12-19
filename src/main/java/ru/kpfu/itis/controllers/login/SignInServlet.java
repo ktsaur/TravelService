@@ -1,6 +1,6 @@
 package ru.kpfu.itis.controllers.login;
 
-import ru.kpfu.itis.dao.UserDao;
+import ru.kpfu.itis.dao.UserDaoImpl;
 import ru.kpfu.itis.entities.User;
 import ru.kpfu.itis.services.UserService;
 import ru.kpfu.itis.util.DbException;
@@ -11,14 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
 @WebServlet("/signin")
 public class SignInServlet extends HttpServlet {
 
-    private UserDao userDao;
+    private UserDaoImpl userDao;
     private UserService userService;
 
 
@@ -27,7 +26,7 @@ public class SignInServlet extends HttpServlet {
         //Метод init вызывается при инициализации сервлета. Он принимает объект ServletConfig,
         //который содержит конфигурационные данные для сервлета.
         super.init(config);
-        userDao = (UserDao) getServletContext().getAttribute("userDao");
+        userDao = (UserDaoImpl) getServletContext().getAttribute("userDao");
         userService = (UserService) getServletContext().getAttribute("userService");
     }
     @Override

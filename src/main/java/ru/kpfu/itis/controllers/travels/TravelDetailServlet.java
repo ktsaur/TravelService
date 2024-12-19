@@ -1,7 +1,7 @@
 package ru.kpfu.itis.controllers.travels;
 
 import com.cloudinary.Cloudinary;
-import ru.kpfu.itis.dao.TravelDao;
+import ru.kpfu.itis.dao.TravelDaoImpl;
 import ru.kpfu.itis.entities.Travel;
 import ru.kpfu.itis.util.CloudinaryUtil;
 import ru.kpfu.itis.util.DbException;
@@ -26,7 +26,7 @@ import java.util.Map;
 )
 public class TravelDetailServlet extends HttpServlet {
 
-    private TravelDao travelDao;
+    private TravelDaoImpl travelDao;
     private final Cloudinary cloudinary = CloudinaryUtil.getInstance();
     private static final String FILE_PREFIX = "/tmp";
     private static final int DIRECTORIES_COUNT = 10;
@@ -34,7 +34,7 @@ public class TravelDetailServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        this.travelDao = (TravelDao) getServletContext().getAttribute("travelDao");
+        this.travelDao = (TravelDaoImpl) getServletContext().getAttribute("travelDao");
 
     }
 

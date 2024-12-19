@@ -2,7 +2,7 @@ package ru.kpfu.itis.controllers.articles;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kpfu.itis.dao.ArticleDao;
+import ru.kpfu.itis.dao.ArticleDaoImpl;
 import ru.kpfu.itis.entities.Article;
 import ru.kpfu.itis.util.DbException;
 
@@ -22,12 +22,12 @@ public class ArticleCreateServlet extends HttpServlet {
 
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private ArticleDao articleDao;
+    private ArticleDaoImpl articleDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.articleDao = (ArticleDao) config.getServletContext().getAttribute("articleDao");
+        this.articleDao = (ArticleDaoImpl) config.getServletContext().getAttribute("articleDao");
     }
 
     @Override
@@ -49,7 +49,6 @@ public class ArticleCreateServlet extends HttpServlet {
         try {
             String title = req.getParameter("title");
             String content = req.getParameter("content");;
-//            Date created_date = Date.valueOf(req.getParameter("created_date"));
             Boolean is_favourite = Boolean.parseBoolean(req.getParameter("favourite"));
             String category = req.getParameter("category");
 

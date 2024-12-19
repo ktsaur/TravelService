@@ -1,8 +1,7 @@
 package ru.kpfu.itis.controllers.profile;
 
-import ru.kpfu.itis.dao.ArticleDao;
+import ru.kpfu.itis.dao.ArticleDaoImpl;
 import ru.kpfu.itis.entities.Article;
-import ru.kpfu.itis.util.DbException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,12 +16,12 @@ import java.util.List;
 @WebServlet("/favourites")
 public class FavouritesServlet extends HttpServlet {
 
-    private ArticleDao articleDao;
+    private ArticleDaoImpl articleDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.articleDao = (ArticleDao) getServletContext().getAttribute("articleDao");
+        this.articleDao = (ArticleDaoImpl) getServletContext().getAttribute("articleDao");
     }
 
 

@@ -1,7 +1,7 @@
 package ru.kpfu.itis.controllers.articles;
 
-import ru.kpfu.itis.dao.ArticleDao;
-import ru.kpfu.itis.dao.FavouritesDao;
+import ru.kpfu.itis.dao.ArticleDaoImpl;
+import ru.kpfu.itis.dao.FavouritesDaoImpl;
 import ru.kpfu.itis.entities.Article;
 import ru.kpfu.itis.services.FavouritesService;
 import ru.kpfu.itis.util.DbException;
@@ -18,15 +18,15 @@ import java.sql.SQLException;
 @WebServlet("/article/detail")
 public class ArticleDetailServlet extends HttpServlet {
 
-    private ArticleDao articleDao;
-    private FavouritesDao favouritesDao;
+    private ArticleDaoImpl articleDao;
+    private FavouritesDaoImpl favouritesDao;
     private FavouritesService favouritesService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.articleDao = (ArticleDao) config.getServletContext().getAttribute("articleDao");
-        this.favouritesDao = (FavouritesDao) config.getServletContext().getAttribute("favouritesDao");
+        this.articleDao = (ArticleDaoImpl) config.getServletContext().getAttribute("articleDao");
+        this.favouritesDao = (FavouritesDaoImpl) config.getServletContext().getAttribute("favouritesDao");
         this.favouritesService = (FavouritesService) getServletContext().getAttribute("favouritesService");
 
     }

@@ -2,7 +2,7 @@ package ru.kpfu.itis.controllers.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.kpfu.itis.dao.ArticleDao;
+import ru.kpfu.itis.dao.ArticleDaoImpl;
 import ru.kpfu.itis.entities.Article;
 import ru.kpfu.itis.services.FavouritesService;
 import ru.kpfu.itis.util.DbException;
@@ -26,13 +26,13 @@ public class MainServlet extends HttpServlet {
 
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private ArticleDao articleDao;
+    private ArticleDaoImpl articleDao;
     private FavouritesService favouritesService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.articleDao = (ArticleDao) getServletContext().getAttribute("articleDao");
+        this.articleDao = (ArticleDaoImpl) getServletContext().getAttribute("articleDao");
         this.favouritesService = (FavouritesService) getServletContext().getAttribute("favouritesService");
     }
 

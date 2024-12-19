@@ -3,18 +3,24 @@ package ru.kpfu.itis.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
-@WebFilter("/*") //говорим, что он будет запускаться вообще всегда
+@WebFilter("/*")
 public class AuthFilter implements Filter {
+
+    private List<String> allowedPaths;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+        String allowedPathsParam = filterConfig.getServletContext().getInitParameter("allowedPaths");
+        if (allowedPathsParam != null) {
+            allowedPaths = Arrays.asList(allowedPathsParam.split(","));
+        }
     }
 
     @Override
@@ -25,7 +31,7 @@ public class AuthFilter implements Filter {
         String uri = httpRequest.getRequestURI();
         HttpSession session = httpRequest.getSession(false);
 
-        boolean isPublicResource = uri.contains("/main") || uri.contains("/signin") || uri.contains("/article/detail") || uri.contains("/registration");
+        boolean isPublicResource = allowedPaths.stream().anyMatch(uri::contains);
         boolean isAuthenticated = session != null && session.getAttribute("user") != null;
 
         if (!isAuthenticated && !isPublicResource) {
